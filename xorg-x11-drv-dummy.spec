@@ -4,7 +4,7 @@
 
 Summary:   Xorg X11 dummy video driver
 Name:      xorg-x11-drv-dummy
-Version:   0.3.3
+Version:   0.3.4
 Release:   1%{?dist}
 URL:       http://www.x.org
 License:   MIT
@@ -18,7 +18,8 @@ ExcludeArch: s390 s390x
 BuildRequires: xorg-x11-server-sdk >= 1.4.99.1
 
 Requires:  hwdata
-Requires:  xorg-x11-server-Xorg >= 1.4.99.1
+Requires:  Xorg %(xserver-sdk-abi-requires ansic)
+Requires:  Xorg %(xserver-sdk-abi-requires videodrv)
 
 %description 
 X.Org X11 dummy video driver.
@@ -47,6 +48,9 @@ rm -rf $RPM_BUILD_ROOT
 %{driverdir}/dummy_drv.so
 
 %changelog
+* Tue Jun 28 2011 Ben Skeggs <bskeggs@redhat.com> 0.3.4-1
+- upstream release 0.3.4
+
 * Tue Dec 01 2009 Adam Jackson <ajax@redhat.com> 0.3.3-1
 - dummy 0.3.3
 
