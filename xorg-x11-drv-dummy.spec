@@ -5,29 +5,31 @@
 Summary:   Xorg X11 dummy video driver
 Name:      xorg-x11-drv-dummy
 Version:   0.3.6
-Release:   2%{?dist}
+Release:   15%{?dist}
 URL:       http://www.x.org
 License:   MIT
 Group:     User Interface/X Hardware Support
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Source0:   ftp://ftp.x.org/pub/individual/driver/%{tarball}-%{version}.tar.bz2
+Patch0:    0001-Remove-mibstore.h.patch
 
 ExcludeArch: s390 s390x
 
-BuildRequires: xorg-x11-server-sdk >= 1.4.99.1
+BuildRequires: xorg-x11-server-devel >= 1.10.99.902
+BuildRequires: autoconf automake libtool
 
-Requires:  hwdata
-Requires:  Xorg %(xserver-sdk-abi-requires ansic)
-Requires:  Xorg %(xserver-sdk-abi-requires videodrv)
+Requires: Xorg %(xserver-sdk-abi-requires ansic)
+Requires: Xorg %(xserver-sdk-abi-requires videodrv)
 
 %description 
 X.Org X11 dummy video driver.
 
 %prep
 %setup -q -n %{tarball}-%{version}
+%patch0 -p1 -b .mibstore
 
 %build
+autoreconf -vif
 %configure --disable-static
 make
 
@@ -48,14 +50,101 @@ rm -rf $RPM_BUILD_ROOT
 %{driverdir}/dummy_drv.so
 
 %changelog
-* Wed Aug 22 2012 airlied@redhat.com - 0.3.6-2
-- rebuild for server ABI requires
+* Wed Jan 15 2014 Adam Jackson <ajax@redhat.com> - 0.3.6-15
+- 1.15 ABI rebuild
 
-* Thu Aug 02 2012 Dave Airlie <airlied@redhat.com> 0.3.6-1
-- rebase to upstream release 0.3.6, as in f18.
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 0.3.6-14
+- Mass rebuild 2013-12-27
 
-* Tue Jun 28 2011 Ben Skeggs <bskeggs@redhat.com> 0.3.4-1
-- upstream release 0.3.4
+* Wed Nov 06 2013 Adam Jackson <ajax@redhat.com> - 0.3.6-13
+- 1.15RC1 ABI rebuild
+
+* Fri Oct 25 2013 Adam Jackson <ajax@redhat.com> - 0.3.6-12
+- ABI rebuild
+
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Tue Mar 19 2013 Adam Jackson <ajax@redhat.com> 0.3.6-10
+- Less RHEL customization
+
+* Thu Mar 07 2013 Dave Airlie <airlied@redhat.com> 0.3.6-9
+- autoreconf for aarch64
+
+* Thu Mar 07 2013 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.6-8
+- require xorg-x11-server-devel, not -sdk
+
+* Thu Mar 07 2013 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.6-7
+- ABI rebuild
+
+* Fri Feb 15 2013 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.6-6
+- ABI rebuild
+
+* Fri Feb 15 2013 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.6-5
+- ABI rebuild
+
+* Thu Jan 10 2013 Adam Jackson <ajax@redhat.com> - 0.3.6-3
+- ABI rebuild
+
+* Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Wed Jul 18 2012 Dave Airlie <airlied@redhat.com> 0.3.6-1
+- dummy 0.3.6
+
+* Thu Apr 05 2012 Adam Jackson <ajax@redhat.com> - 0.3.5-5
+- RHEL arch exclude updates
+
+* Sat Feb 11 2012 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.5-4
+- ABI rebuild
+
+* Fri Feb 10 2012 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.5-3
+- ABI rebuild
+
+* Tue Jan 24 2012 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.5-2
+- ABI rebuild
+
+* Mon Jan 16 2012 Peter Hutterer <peter.hutterer@redhat.com> 0.3.5-1
+- dummy 0.3.5
+
+* Wed Jan 04 2012 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.4-11
+- Rebuild for server 1.12
+
+* Fri Dec 16 2011 Adam Jackson <ajax@redhat.com> - 0.3.4-10
+- Drop xinf file
+
+* Mon Nov 14 2011 Adam Jackson <ajax@redhat.com> - 0.3.4-9
+- ABI rebuild
+
+* Wed Nov 09 2011 ajax <ajax@redhat.com> - 0.3.4-8
+- ABI rebuild
+
+* Thu Aug 18 2011 Adam Jackson <ajax@redhat.com> - 0.3.4-7
+- Rebuild for xserver 1.11 ABI
+
+* Wed May 11 2011 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.4-6
+- Rebuild for server 1.11
+
+* Mon Feb 28 2011 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.4-5
+- Rebuild for server 1.10
+
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Thu Dec 02 2010 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.4-3
+- Rebuild for server 1.10
+
+* Wed Oct 27 2010 Adam Jackson <ajax@redhat.com> 0.3.4-2
+- Add ABI requires magic. (#542742)
+
+* Mon Jul 05 2010 Dave Airlie <airlied@redhat.com> 0.3.4-1
+- update to latest dummy release for 1.9
+
+* Mon Jul 05 2010 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.3-3
+- rebuild for X Server 1.9
+
+* Thu Jan 21 2010 Peter Hutterer <peter.hutterer@redhat.com> - 0.3.3-2
+- Rebuild for server 1.8
 
 * Tue Dec 01 2009 Adam Jackson <ajax@redhat.com> 0.3.3-1
 - dummy 0.3.3
