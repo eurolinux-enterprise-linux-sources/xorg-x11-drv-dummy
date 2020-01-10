@@ -4,8 +4,8 @@
 
 Summary:   Xorg X11 dummy video driver
 Name:      xorg-x11-drv-dummy
-Version:   0.3.4
-Release:   1%{?dist}
+Version:   0.3.6
+Release:   2%{?dist}
 URL:       http://www.x.org
 License:   MIT
 Group:     User Interface/X Hardware Support
@@ -48,6 +48,12 @@ rm -rf $RPM_BUILD_ROOT
 %{driverdir}/dummy_drv.so
 
 %changelog
+* Wed Aug 22 2012 airlied@redhat.com - 0.3.6-2
+- rebuild for server ABI requires
+
+* Thu Aug 02 2012 Dave Airlie <airlied@redhat.com> 0.3.6-1
+- rebase to upstream release 0.3.6, as in f18.
+
 * Tue Jun 28 2011 Ben Skeggs <bskeggs@redhat.com> 0.3.4-1
 - upstream release 0.3.4
 
