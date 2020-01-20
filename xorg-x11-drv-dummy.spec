@@ -7,7 +7,7 @@
 Summary:   Xorg X11 dummy video driver
 Name:      xorg-x11-drv-dummy
 Version:   0.3.7
-Release:   1%{?dist}.1
+Release:   1%{?dist}
 URL:       http://www.x.org
 License:   MIT
 Group:     User Interface/X Hardware Support
@@ -47,9 +47,6 @@ find $RPM_BUILD_ROOT -regex ".*\.la$" | xargs rm -f --
 %{driverdir}/dummy_drv.so
 
 %changelog
-* Wed May 30 2018 Adam Jackson <ajax@redhat.com> - 0.3.7-1.1
-- Rebuild for xserver 1.20
-
 * Wed Nov  9 2016 Hans de Goede <hdegoede@redhat.com> - 0.3.7-1
 - New upstream release 0.7.3
 - Fix undefined symbol error with xserver-1.19 (rhbz#1393114)
