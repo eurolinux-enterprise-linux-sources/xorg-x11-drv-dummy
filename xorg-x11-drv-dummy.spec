@@ -5,7 +5,7 @@
 Summary:   Xorg X11 dummy video driver
 Name:      xorg-x11-drv-dummy
 Version:   0.3.6
-Release:   13%{?dist}
+Release:   21%{?dist}
 URL:       http://www.x.org
 License:   MIT
 Group:     User Interface/X Hardware Support
@@ -50,6 +50,30 @@ rm -rf $RPM_BUILD_ROOT
 %{driverdir}/dummy_drv.so
 
 %changelog
+* Wed Feb 11 2015 Hans de Goede <hdegoede@redhat.com> - 0.3.6-21
+- xserver 1.17 ABI rebuild
+
+* Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.6-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Mon Jun 16 2014 Hans de Goede <hdegoede@redhat.com> - 0.3.6-19
+- xserver 1.15.99.903 ABI rebuild
+
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Mon Apr 28 2014 Hans de Goede <hdegoede@redhat.com> - 0.3.6-17
+- xserver 1.15.99-20140428 git snapshot ABI rebuild
+
+* Mon Jan 13 2014 Adam Jackson <ajax@redhat.com> - 0.3.6-16
+- 1.15 ABI rebuild
+
+* Tue Dec 17 2013 Adam Jackson <ajax@redhat.com> - 0.3.6-15
+- 1.15RC4 ABI rebuild
+
+* Wed Nov 20 2013 Adam Jackson <ajax@redhat.com> - 0.3.6-14
+- 1.15RC2 ABI rebuild
+
 * Wed Nov 06 2013 Adam Jackson <ajax@redhat.com> - 0.3.6-13
 - 1.15RC1 ABI rebuild
 
