@@ -1,17 +1,19 @@
-%define tarball xf86-video-dummy
-%define moduledir %(pkg-config xorg-server --variable=moduledir )
-%define driverdir	%{moduledir}/drivers
+%global tarball xf86-video-dummy
+%global moduledir %(pkg-config xorg-server --variable=moduledir )
+%global driverdir %{moduledir}/drivers
+
+%undefine _hardened_build
 
 Summary:   Xorg X11 dummy video driver
 Name:      xorg-x11-drv-dummy
-Version:   0.3.6
-Release:   21%{?dist}
+Version:   0.3.7
+Release:   1%{?dist}.1
 URL:       http://www.x.org
 License:   MIT
 Group:     User Interface/X Hardware Support
 
 Source0:   ftp://ftp.x.org/pub/individual/driver/%{tarball}-%{version}.tar.bz2
-Patch0:    0001-Remove-mibstore.h.patch
+Patch0:    0001-Switch-to-using-dixChangeWindowProperty.patch
 
 ExcludeArch: s390 s390x
 
@@ -26,30 +28,53 @@ X.Org X11 dummy video driver.
 
 %prep
 %setup -q -n %{tarball}-%{version}
-%patch0 -p1 -b .mibstore
+%patch0 -p1
+autoreconf -vif
 
 %build
-autoreconf -vif
 %configure --disable-static
-make
+%make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # FIXME: Remove all libtool archives (*.la) from modules directory.  This
 # should be fixed in upstream Makefile.am or whatever.
 find $RPM_BUILD_ROOT -regex ".*\.la$" | xargs rm -f --
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-,root,root,-)
+%doc README
 %{driverdir}/dummy_drv.so
 
 %changelog
+* Wed May 30 2018 Adam Jackson <ajax@redhat.com> - 0.3.7-1.1
+- Rebuild for xserver 1.20
+
+* Wed Nov  9 2016 Hans de Goede <hdegoede@redhat.com> - 0.3.7-1
+- New upstream release 0.7.3
+- Fix undefined symbol error with xserver-1.19 (rhbz#1393114)
+
+* Thu Sep 29 2016 Hans de Goede <hdegoede@redhat.com> - 0.3.6-26
+- Rebuild against xserver-1.19
+
+* Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Thu Jan 28 2016 Peter Hutterer <peter.hutterer@redhat.com>
+- Remove unnecessary defattr
+
+* Wed Jan 20 2016 Peter Hutterer <peter.hutterer@redhat.com>
+- s/define/global/
+
+* Wed Jul 29 2015 Dave Airlie <airlied@redhat.com> - 0.3.6-24
+- 1.15 ABI rebuild
+
+* Tue Jun 23 2015 Adam Jackson <ajax@redhat.com> - 0.3.6-23
+- Undefine _hardened_build
+
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.6-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Feb 11 2015 Hans de Goede <hdegoede@redhat.com> - 0.3.6-21
 - xserver 1.17 ABI rebuild
 
